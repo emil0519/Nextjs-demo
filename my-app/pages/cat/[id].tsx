@@ -12,6 +12,19 @@ function cat({ thisCat }: any) {
     </section>
   );
 }
+
+// export const getStaticProps = async (context: any) => {
+//   // fetch at request
+//   const res = await fetch(
+//     `https://api.thecatapi.com/v1/images/${context.params.id}`
+//   );
+//   //   context have to be context.params.id that contains id of dynamic parameter
+//   const thisCat = await res.json();
+//   return {
+//     props: { thisCat },
+//   };
+// };
+
 export const getServerSideProps = async (context: any) => {
   // fetch at request
   const res = await fetch(
