@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 
 function cat({ thisCat }: any) {
-  console.log("original");
   const router = useRouter();
   const { id } = router.query;
 
@@ -13,7 +12,34 @@ function cat({ thisCat }: any) {
   );
 }
 
-// export const getStaticProps = async (context: any) => {
+export const getStaticPaths = async () => {
+  // Create dynamic link for all circumstances?
+  const res = await fetch(
+    `https://api.thecatapi.com/v1/images/search?limit=10`
+  );
+  //   context have to be context.params.id that contains id of dynamic parameter
+  const cats = await res.json();
+  const ids = await cats.map((item: any) => item.id);
+  const paths = ids.map((id: any) => ({ params: { id: id.toString() } }));
+  return {
+    paths,
+    fallback: true,
+    //if data is not existed, return 404 page
+  };
+};
+
+export const getStaticProps = async (context: any) => {
+  const res = await fetch(
+    `https://api.thecatapi.com/v1/images/${context.params.id}`
+  );
+  //   context have to be context.params.id that contains id of dynamic parameter
+  const thisCat = await res.json();
+  return {
+    props: { thisCat },
+  };
+};
+
+// export const getServerSideProps = async (context: any) => {
 //   // fetch at request
 //   const res = await fetch(
 //     `https://api.thecatapi.com/v1/images/${context.params.id}`
@@ -24,16 +50,4 @@ function cat({ thisCat }: any) {
 //     props: { thisCat },
 //   };
 // };
-
-export const getServerSideProps = async (context: any) => {
-  // fetch at request
-  const res = await fetch(
-    `https://api.thecatapi.com/v1/images/${context.params.id}`
-  );
-  //   context have to be context.params.id that contains id of dynamic parameter
-  const thisCat = await res.json();
-  return {
-    props: { thisCat },
-  };
-};
 export default cat;
