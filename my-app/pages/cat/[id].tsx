@@ -23,7 +23,7 @@ export const getStaticPaths = async () => {
   const paths = ids.map((id: any) => ({ params: { id: id.toString() } }));
   return {
     paths,
-    fallback: true,
+    fallback: false,
     //if data is not existed, return 404 page
   };
 };

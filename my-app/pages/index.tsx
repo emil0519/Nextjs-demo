@@ -1,17 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
 import CatList from "../component/CatList";
 import { server } from "../config/index";
 
 const Home: NextPage = ({ cats, localCats }: any) => {
-  const [JJResult, setJJResult] = useState();
-  useEffect(() => {
-    fetch("https://nexthosting.vercel.app/api/hello").then(
-      (result) => result.json
-      // .then((result:any)=>console.log(result))
-    );
-  }, []);
+  //
 
   return (
     <section className="bg-black w-[100vw] h-[100vh] flex justify-center items-center flex-col">
@@ -41,6 +34,9 @@ export const getStaticProps = async () => {
 
   const res = await fetch("https://api.thecatapi.com/v1/images/search?limit=6");
   const cats = await res.json();
+
+  // const newRes = await fetch("https://cataas.com/cat/cute");
+  // const newCats = await newRes.json();
 
   // const JJ = await fetch("https://nexthosting.vercel.app/api/hello");
   // const JJResult = await JJ.json();
